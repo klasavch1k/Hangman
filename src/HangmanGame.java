@@ -1,8 +1,6 @@
 import Enums.HangmanArt;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class HangmanGame {
     private final static String LETTER_ALREADY_USED = "ты уже называл эту букву(";
@@ -26,6 +24,7 @@ public class HangmanGame {
     public void starSession() {
         openStartLetters(gameConfig.getRevealedLetters());
         while (true) {
+            // эти два ифа просто ужас
             consoleUI.printGameMenu(stageCalculation(), guessLetters, enterLetters);
             if(isWin()){
                 consoleUI.printWinMessage();
@@ -37,7 +36,7 @@ public class HangmanGame {
                 break;
             }
             if(isLoss()){
-                consoleUI.printLossMessage(word);
+                consoleUI.printLoseMessage(word);
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
@@ -46,8 +45,9 @@ public class HangmanGame {
                 break;
             }
             String enterLetter = consoleUI.readGameMenu();
-            while (!validEnteredLetter(enterLetter)) {
-                consoleUI.printGameMenu(stageCalculation(), guessLetters, enterLetters, LETTER_ALREADY_USED);
+            while (!isLetterAlreadyUsed(enterLetter)) {
+                consoleUI.printGameMenu(stageCalculation(), guessLetters, enterLetters);
+                consoleUI.printMessage(LETTER_ALREADY_USED);
                 enterLetter = consoleUI.readGameMenu();
             }
             checkLetterInWord(enterLetter);
@@ -61,7 +61,7 @@ public class HangmanGame {
         }
         return values[countFailAttempts + 2];
     }
-    private boolean validEnteredLetter(String currentLetter) {
+    private boolean isLetterAlreadyUsed(String currentLetter) {
         for (String enteredLetter : enterLetters) {
             if (enteredLetter.equals(currentLetter)) {
                 return false;
@@ -91,7 +91,7 @@ public class HangmanGame {
         return countFailAttempts == gameConfig.getMaxAttempts();
     }
 
-
+// не реализован
     private void openStartLetters(int count) {
         //логика
         // можно открыть две одиночны если count = 2
