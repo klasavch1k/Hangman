@@ -42,7 +42,7 @@ public class GameRunner {
                     int newValue;
                     do {
                         newValue = consoleUI.showSetMaxAttemptMenu(gameConfig.getMaxAttempts());
-                    } while (!gameConfig.setMaxAttempts(newValue));
+                    } while (!gameConfig.trySetMaxAttempts(newValue));
                 }
                 case BACK_TO_MENU -> {
                     break loop;

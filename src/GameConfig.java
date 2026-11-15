@@ -12,7 +12,7 @@ public class GameConfig {
         return maxAttempts;
     }
 
-    public boolean setMaxAttempts(int maxAttempts) {
+    public boolean trySetMaxAttempts(int maxAttempts) {
         if (maxAttempts == 6 || maxAttempts == 8 || maxAttempts == 10) {
             this.maxAttempts = maxAttempts;
             return true;
@@ -24,7 +24,7 @@ public class GameConfig {
         return revealedLetters;
     }
 
-    public boolean setRevealedLetters(int revealedLetters) {
+    public boolean trySetRevealedLetters(int revealedLetters) {
         if (revealedLetters >= 0 && revealedLetters < 3) {
             this.revealedLetters = revealedLetters;
             return true;
