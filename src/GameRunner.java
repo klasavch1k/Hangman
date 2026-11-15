@@ -36,7 +36,7 @@ public class GameRunner {
                     int newValue;
                     do {
                         newValue = consoleUI.showSetRevealedLettersMenu(gameConfig.getRevealedLetters());
-                    } while (!gameConfig.setRevealedLetters(newValue));
+                    } while (!gameConfig.trySetRevealedLetters(newValue));
                 }
                 case SET_MAX_ATTEMPTS -> {
                     int newValue;
