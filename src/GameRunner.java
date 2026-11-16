@@ -2,31 +2,22 @@ import Enums.MenuAction;
 import Enums.SettingsAction;
 
 public class GameRunner {
-    private static final WordDictionary wordDictionary = new WordDictionary();
-    private static final ConsoleUI consoleUI = new ConsoleUI();
-    private static final GameConfig gameConfig = new GameConfig();
+    private  final WordDictionary wordDictionary = new WordDictionary();
+    private  final ConsoleUI consoleUI = new ConsoleUI();
+    private  final GameConfig gameConfig = new GameConfig();
+
     private static final String INVALID_VALUE = "недопустимое значение!";
 
-    public static void main(String[] args) {
-        loop:
-        while (true) {
-            MenuAction menuAction = consoleUI.showStartMenu();
-            switch (menuAction) {
-                case START_GAME -> startGame();
-                case SETTINGS -> openSettings();
-                case EXIT -> {
-                    break loop;
-                }
-            }
-        }
-    }
-
-    private static void startGame() {
+    public void startGame() {
         HangmanGame hangmanGame = new HangmanGame(wordDictionary.getRandomWord(),gameConfig,consoleUI);
         hangmanGame.starSession();
     }
 
-    private static void openSettings() {
+    public ConsoleUI getConsoleUI() {
+        return consoleUI;
+    }
+
+    public void openSettings() {
         loop:
         while (true) {
             SettingsAction settingsAction = consoleUI.showSettingsMenu(gameConfig.getRevealedLetters(), gameConfig.getMaxAttempts());
@@ -62,5 +53,6 @@ public class GameRunner {
                 }
             }
         }
+
     }
 }
