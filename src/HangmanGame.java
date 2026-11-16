@@ -1,14 +1,17 @@
 import Enums.HangmanArt;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class HangmanGame {
     private final static String LETTER_ALREADY_USED = "ты уже называл эту букву(";
     private final String word;
     private final GameConfig gameConfig;
     private final ConsoleUI consoleUI;
-    private Set<String> enterLetters = new HashSet<>();
-    private List<String> guessLetters;
+    private final Set<String> enterLetters = new HashSet<>();
+    private final List<String> guessLetters;
     private int countFailAttempts;
 
     public HangmanGame(String word, GameConfig gameConfig, ConsoleUI consoleUI) {
@@ -27,21 +30,11 @@ public class HangmanGame {
             // эти два ифа просто ужас
             consoleUI.printGameMenu(stageCalculation(), guessLetters, enterLetters);
             if(isWin()){
-                consoleUI.printWinMessage();
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                consoleUI.showWinMessage();
                 break;
             }
             if(isLoss()){
-                consoleUI.printLoseMessage(word);
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                consoleUI.showLoseMessage(word);
                 break;
             }
             String enterLetter = consoleUI.readGameMenu();
@@ -90,12 +83,62 @@ public class HangmanGame {
     private boolean isLoss(){
         return countFailAttempts == gameConfig.getMaxAttempts();
     }
-
-// не реализован
     private void openStartLetters(int count) {
-        //логика
-        // можно открыть две одиночны если count = 2
-        //можно открыть одну двойную если count = 2
-        // можно открыть одну одиночную если count =1
+        if(count == 0){
+            return;
+        }
+        if (count < 0 || count > 2) {
+            throw new IllegalArgumentException("число должно быть между 0 и 2");
+        }
+        Random random = new Random();
+        Map<String, Long> countLetters = Arrays.stream(word.split(""))
+                .collect(Collectors.groupingBy(
+                        Function.identity(), Collectors.counting()
+                ));
+        List<String> singleLetters = new ArrayList<>();
+        List<String> doubleLetters = new ArrayList<>();
+
+        for (Map.Entry<String, Long> entry : countLetters.entrySet()) {
+            if (entry.getValue() == 1) {
+                singleLetters.add(entry.getKey());
+            } else if (entry.getValue() == 2) {
+                doubleLetters.add(entry.getKey());
+            }
+        }
+        if (count == 1) {
+            if (!singleLetters.isEmpty()) {
+                String letter = singleLetters.get(random.nextInt(singleLetters.size()));
+                checkLetterInWord(letter);
+            }
+            return;
+        }
+
+        boolean hasDouble = !doubleLetters.isEmpty();
+        boolean hasTwoSingles = singleLetters.size() >= 2;
+
+        if (hasDouble && !hasTwoSingles) {
+            String letter = doubleLetters.get(random.nextInt(doubleLetters.size()));
+            checkLetterInWord(letter);
+
+        } else if (!hasDouble && hasTwoSingles) {
+            Collections.shuffle(singleLetters, random);
+            checkLetterInWord(singleLetters.get(0));
+            checkLetterInWord(singleLetters.get(1));
+
+        } else if (hasDouble && hasTwoSingles) {
+            if (random.nextBoolean()) {
+                String letter = doubleLetters.get(random.nextInt(doubleLetters.size()));
+                checkLetterInWord(letter);
+            } else {
+                Collections.shuffle(singleLetters, random);
+                checkLetterInWord(singleLetters.get(0));
+                checkLetterInWord(singleLetters.get(1));
+            }
+
+        } else {
+            if (singleLetters.size() == 1) {
+                checkLetterInWord(singleLetters.get(0));
+            }
+        }
     }
 }
