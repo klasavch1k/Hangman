@@ -1,3 +1,5 @@
+package clases;
+
 public class GameConfig {
     private int maxAttempts = 6;
     private int revealedLetters = 2;

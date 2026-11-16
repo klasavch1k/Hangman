@@ -1,4 +1,6 @@
-import Enums.SettingsAction;
+package clases;
+
+import enums.SettingsAction;
 
 public class GameRunner {
     private  final WordDictionary wordDictionary = new WordDictionary();

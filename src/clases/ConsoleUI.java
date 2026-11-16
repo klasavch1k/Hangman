@@ -1,6 +1,8 @@
-import Enums.HangmanArt;
-import Enums.MenuAction;
-import Enums.SettingsAction;
+package clases;
+
+import enums.HangmanArt;
+import enums.MenuAction;
+import enums.SettingsAction;
 
 import java.util.List;
 import java.util.Scanner;

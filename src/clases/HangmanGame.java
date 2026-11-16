@@ -1,4 +1,6 @@
-import Enums.HangmanArt;
+package clases;
+
+import enums.HangmanArt;
 
 import java.util.*;
 import java.util.function.Function;
