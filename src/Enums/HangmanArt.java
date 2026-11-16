@@ -105,8 +105,8 @@ public enum HangmanArt {
 
     private final String art;
 
-    HangmanArt(String atr) {
-        this.art = atr;
+    HangmanArt(String art) {
+        this.art = art;
     }
 
     public String getArt() {

@@ -1,4 +1,3 @@
-import Enums.MenuAction;
 import Enums.SettingsAction;
 
 public class GameRunner {
@@ -10,7 +9,7 @@ public class GameRunner {
 
     public void startGame() {
         HangmanGame hangmanGame = new HangmanGame(wordDictionary.getRandomWord(),gameConfig,consoleUI);
-        hangmanGame.starSession();
+        hangmanGame.startSession();
     }
 
     public ConsoleUI getConsoleUI() {

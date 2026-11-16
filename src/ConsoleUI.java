@@ -2,7 +2,6 @@ import Enums.HangmanArt;
 import Enums.MenuAction;
 import Enums.SettingsAction;
 
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
@@ -10,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class ConsoleUI {
     private final Scanner scanner = new Scanner(System.in);
-    private static final Pattern ONLY_ONE_LETTER = Pattern.compile("[А-ЯёЁа-я]");
+    private static final Pattern SINGLE_RUSSIAN_LETTER_PATTERN = Pattern.compile("[А-ЯёЁа-я]");
 
     public MenuAction showStartMenu() {
         printStartMenu();
@@ -27,12 +26,12 @@ public class ConsoleUI {
         System.out.print("Ваш выбор: ");
     }
     private MenuAction readMenuAction() {
-        int choose = readNumber(1, 3);
-        return switch (choose) {
+        int choice = readNumber(1, 3);
+        return switch (choice) {
             case 1 -> MenuAction.START_GAME;
             case 2 -> MenuAction.SETTINGS;
             case 3 -> MenuAction.EXIT;
-            default -> throw new IllegalStateException("Unexpected value: " + choose);
+            default -> throw new IllegalStateException("Unexpected value: " + choice);
         };
     }
 
@@ -56,12 +55,12 @@ public class ConsoleUI {
     }
     private SettingsAction readSettingsAction() {
         System.out.print("Ваш выбор: ");
-        int choose = readNumber(1,3);
-        return switch (choose) {
+        int choice = readNumber(1,3);
+        return switch (choice) {
             case 1 -> SettingsAction.SET_REVEALED_LETTERS;
             case 2 -> SettingsAction.SET_MAX_ATTEMPTS;
             case 3 -> SettingsAction.BACK_TO_MENU;
-            default -> throw new IllegalStateException("Unexpected value: " + choose);
+            default -> throw new IllegalStateException("Unexpected value: " + choice);
         };
     }
 
@@ -116,23 +115,23 @@ public class ConsoleUI {
         }
     }
     private int readNumber(int min, int max){
-        int choose;
+        int choice;
         while (true){
             try {
                 String enteredLine = scanner.nextLine();
-                choose = Integer.parseInt(enteredLine);
+                choice = Integer.parseInt(enteredLine);
             }catch (NumberFormatException e){
                 System.out.println("Введите число!");
                 System.out.print("Вaш выбор: ");
                 continue;
             }
-            if(choose >= min && choose <= max){
+            if(choice >= min && choice <= max){
                 break;
             }
             System.out.println("число должно быть от "+ min+ " до "+ max);
             System.out.print("Вaш выбор: ");
         }
-        return choose;
+        return choice;
     }
     private int readNumber(){
         return readNumber(Integer.MIN_VALUE, Integer.MAX_VALUE);
@@ -141,7 +140,7 @@ public class ConsoleUI {
         String enterString;
         while (true){
             enterString = scanner.nextLine();
-            if(ONLY_ONE_LETTER.matcher(enterString).matches()){
+            if(SINGLE_RUSSIAN_LETTER_PATTERN.matcher(enterString).matches()){
                 break;
             }
             System.out.println("нужно ввести одну букву!");

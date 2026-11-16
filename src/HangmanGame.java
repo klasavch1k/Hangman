@@ -3,31 +3,30 @@ import Enums.HangmanArt;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class HangmanGame {
     private final static String LETTER_ALREADY_USED = "ты уже называл эту букву(";
     private String word;
     private final GameConfig gameConfig;
     private ConsoleUI consoleUI;
-    private final Set<String> enterLetters = new HashSet<>();
-    private final List<String> guessLetters;
-    private int countFailAttempts;
+    private final Set<String> enteredLetters = new HashSet<>();
+    private final List<String> revealedLetters;
+    private int failedAttempts;
 
     public HangmanGame(String word, GameConfig gameConfig, ConsoleUI consoleUI) {
         this.word = word;
         this.gameConfig = new GameConfig(gameConfig);
         this.consoleUI = consoleUI;
-        guessLetters = new ArrayList<>();
+        revealedLetters = new ArrayList<>();
         for (int i = 0; i<word.length(); i++){
-            guessLetters.add("_");
+            revealedLetters.add("_");
         }
     }
 
-    public void starSession() {
+    public void startSession() {
         openStartLetters(gameConfig.getRevealedLetters());
         while (true) {
-            consoleUI.printGameMenu(stageCalculation(), guessLetters, enterLetters);
+            consoleUI.printGameMenu(getCurrentStage(), revealedLetters, enteredLetters);
             if(isWin()){
                 consoleUI.showWinMessage();
                 break;
@@ -36,52 +35,52 @@ public class HangmanGame {
                 consoleUI.showLoseMessage(word);
                 break;
             }
-            String enterLetter = consoleUI.readGameMenu();
-            while (!isLetterAlreadyUsed(enterLetter)) {
-                consoleUI.printGameMenu(stageCalculation(), guessLetters, enterLetters);
+            String enteredLetter = consoleUI.readGameMenu();
+            while (!isLetterNotUsed(enteredLetter)) {
+                consoleUI.printGameMenu(getCurrentStage(), revealedLetters, enteredLetters);
                 consoleUI.printMessage(LETTER_ALREADY_USED);
-                enterLetter = consoleUI.readGameMenu();
+                enteredLetter = consoleUI.readGameMenu();
             }
-            checkLetterInWord(enterLetter);
+            processGuess(enteredLetter);
         }
     }
 
-    private HangmanArt stageCalculation() {
+    private HangmanArt getCurrentStage() {
         HangmanArt[] values = HangmanArt.values();
         if (gameConfig.getMaxAttempts() == 10) {
-            return values[countFailAttempts];
+            return values[failedAttempts];
         }
-        return values[countFailAttempts + 2];
+        return values[failedAttempts + 2];
     }
-    private boolean isLetterAlreadyUsed(String currentLetter) {
-        for (String enteredLetter : enterLetters) {
+    private boolean isLetterNotUsed(String currentLetter) {
+        for (String enteredLetter : enteredLetters) {
             if (enteredLetter.equals(currentLetter)) {
                 return false;
             }
         }
         return true;
     }
-    private void checkLetterInWord(String letter) {
+    private void processGuess(String letter) {
         boolean isMistake = true;
         for (int i = 0; i < word.length(); i++) {
             if (letter.charAt(0) == word.charAt(i)) {
-                guessLetters.set(i, letter);
+                revealedLetters.set(i, letter);
                 isMistake = false;
             }
         }
         if(isMistake){
-            countFailAttempts++;
+            failedAttempts++;
         }
-        enterLetters.add(letter);
+        enteredLetters.add(letter);
     }
     private boolean isWin() {
-        if(guessLetters.contains("_")){
+        if(revealedLetters.contains("_")){
             return false;
         }
         return true;
     }
     private boolean isLoss(){
-        return countFailAttempts == gameConfig.getMaxAttempts();
+        return failedAttempts == gameConfig.getMaxAttempts();
     }
     private void openStartLetters(int count) {
         if(count == 0){
@@ -108,7 +107,7 @@ public class HangmanGame {
         if (count == 1) {
             if (!singleLetters.isEmpty()) {
                 String letter = singleLetters.get(random.nextInt(singleLetters.size()));
-                checkLetterInWord(letter);
+                processGuess(letter);
             }
             return;
         }
@@ -118,26 +117,26 @@ public class HangmanGame {
 
         if (hasDouble && !hasTwoSingles) {
             String letter = doubleLetters.get(random.nextInt(doubleLetters.size()));
-            checkLetterInWord(letter);
+            processGuess(letter);
 
         } else if (!hasDouble && hasTwoSingles) {
             Collections.shuffle(singleLetters, random);
-            checkLetterInWord(singleLetters.get(0));
-            checkLetterInWord(singleLetters.get(1));
+            processGuess(singleLetters.get(0));
+            processGuess(singleLetters.get(1));
 
         } else if (hasDouble && hasTwoSingles) {
             if (random.nextBoolean()) {
                 String letter = doubleLetters.get(random.nextInt(doubleLetters.size()));
-                checkLetterInWord(letter);
+                processGuess(letter);
             } else {
                 Collections.shuffle(singleLetters, random);
-                checkLetterInWord(singleLetters.get(0));
-                checkLetterInWord(singleLetters.get(1));
+                processGuess(singleLetters.get(0));
+                processGuess(singleLetters.get(1));
             }
 
         } else {
             if (singleLetters.size() == 1) {
-                checkLetterInWord(singleLetters.get(0));
+                processGuess(singleLetters.get(0));
             }
         }
     }
