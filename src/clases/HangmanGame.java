@@ -84,6 +84,11 @@ public class HangmanGame {
     private boolean isLoss(){
         return failedAttempts == gameConfig.getMaxAttempts();
     }
+    /*
+    *Метод определяет какие буквы и в каком количестве есть в слове.
+    *На основе этой информации и кол-ве букв которые нужно открыть,
+    * случайно определяет эти буквы.
+    * */
     private void openStartLetters(int count) {
         if(count == 0){
             return;

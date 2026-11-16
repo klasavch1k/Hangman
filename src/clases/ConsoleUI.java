@@ -13,11 +13,17 @@ public class ConsoleUI {
     private final Scanner scanner = new Scanner(System.in);
     private static final Pattern SINGLE_RUSSIAN_LETTER_PATTERN = Pattern.compile("[А-ЯёЁа-я]");
 
+    /*метод show последовательно вызывает методы print и read
+    *дальше есть чёткое разделение методов
+    *print - вывод информации
+    *read - получение данных от пользователя
+    *show - логическое объединение, где есть как вывод информации, так и получение данных
+    */
     public MenuAction showStartMenu() {
         printStartMenu();
         return readMenuAction();
     }
-    private void printStartMenu() {
+    public void printStartMenu() {
         clearConsole();
         System.out.println("ВИСЕЛИЦА");
         System.out.println();
@@ -27,7 +33,7 @@ public class ConsoleUI {
         System.out.println("3 - выйти из игры");
         System.out.print("Ваш выбор: ");
     }
-    private MenuAction readMenuAction() {
+    public MenuAction readMenuAction() {
         int choice = readNumber(1, 3);
         return switch (choice) {
             case 1 -> MenuAction.START_GAME;
@@ -41,7 +47,7 @@ public class ConsoleUI {
         printSettingsMenu(currentRevealedLetters, currentMaxAttempts);
         return readSettingsAction();
     }
-    private void printSettingsMenu(int currentRevealedLetters, int currentMaxAttempts) {
+    public void printSettingsMenu(int currentRevealedLetters, int currentMaxAttempts) {
         clearConsole();
         System.out.println("НАСТРОЙКИ");
         System.out.println("        ------      ");
@@ -55,7 +61,7 @@ public class ConsoleUI {
 
 
     }
-    private SettingsAction readSettingsAction() {
+    public SettingsAction readSettingsAction() {
         System.out.print("Ваш выбор: ");
         int choice = readNumber(1,3);
         return switch (choice) {
@@ -110,6 +116,10 @@ public class ConsoleUI {
         scanner.nextLine();
     }
 
+    public void printMessage(String message){
+        System.out.println(message);
+    }
+
     private void clearConsole() {
         //имитация очистки консоли
         for (int i = 0; i < 20; i++) {
@@ -151,8 +161,5 @@ public class ConsoleUI {
         return enterString.toLowerCase();
     }
 
-    public void printMessage(String message){
-        System.out.println(message);
-    }
 
 }
