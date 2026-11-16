@@ -92,7 +92,7 @@ public class ConsoleUI {
     }
     public String readGameMenu() {
         System.out.print("Ввод: ");
-        char[] charArray = scanner.next().trim().toLowerCase().toCharArray();
+        char[] charArray = scanner.nextLine().trim().toLowerCase().toCharArray();
         return charArray[0] + "";
     }
 
@@ -118,11 +118,11 @@ public class ConsoleUI {
         int choose;
         while (true){
             try {
-                choose = scanner.nextInt();
-            }catch (InputMismatchException e){
+                String enteredLine = scanner.nextLine();
+                choose = Integer.parseInt(enteredLine);
+            }catch (NumberFormatException e){
                 System.out.println("Введите число!");
                 System.out.print("Вaш выбор: ");
-                scanner.nextLine();
                 continue;
             }
             if(choose >= min && choose <= max){
@@ -134,21 +134,7 @@ public class ConsoleUI {
         return choose;
     }
     private int readNumber(){
-        int choose;
-        while (true){
-            try {
-                String enteredLine = scanner.next();
-                choose = Integer.parseInt(enteredLine);
-            }catch (NumberFormatException e){
-                System.out.println("Введите число!");
-                System.out.print("Вaш выбор: ");
-                scanner.nextLine();
-                continue;
-            }
-            break;
-        }
-        return choose;
-
+        return readNumber(Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
     public void printMessage(String message){
