@@ -96,12 +96,16 @@ public class ConsoleUI {
         return charArray[0] + "";
     }
 
-    public void printWinMessage() {
+    public void showWinMessage() {
         System.out.println("поздравляю, ты смог победить!");
+        System.out.println("нажми enter для выхода в меню");
+        scanner.nextLine();
     }
-    public void printLoseMessage(String word) {
+    public void showLoseMessage(String word) {
         System.out.println("к сожалению ты проиграл(");
         System.out.println("я загадал слово: " + word);
+        System.out.println("нажми enter для выхода в меню");
+        scanner.nextLine();
     }
 
     private void clearConsole() {
@@ -133,8 +137,9 @@ public class ConsoleUI {
         int choose;
         while (true){
             try {
-                choose = scanner.nextInt();
-            }catch (InputMismatchException e){
+                String enteredLine = scanner.next();
+                choose = Integer.parseInt(enteredLine);
+            }catch (NumberFormatException e){
                 System.out.println("Введите число!");
                 System.out.print("Вaш выбор: ");
                 scanner.nextLine();
