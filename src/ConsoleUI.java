@@ -6,9 +6,11 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 public class ConsoleUI {
     private final Scanner scanner = new Scanner(System.in);
+    private static final Pattern ONLY_ONE_LETTER = Pattern.compile("[А-ЯёЁа-я]");
 
     public MenuAction showStartMenu() {
         printStartMenu();
@@ -92,8 +94,7 @@ public class ConsoleUI {
     }
     public String readGameMenu() {
         System.out.print("Ввод: ");
-        char[] charArray = scanner.nextLine().trim().toLowerCase().toCharArray();
-        return charArray[0] + "";
+        return readLetter();
     }
 
     public void showWinMessage() {
@@ -135,6 +136,18 @@ public class ConsoleUI {
     }
     private int readNumber(){
         return readNumber(Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+    private String readLetter(){
+        String enterString;
+        while (true){
+            enterString = scanner.nextLine();
+            if(ONLY_ONE_LETTER.matcher(enterString).matches()){
+                break;
+            }
+            System.out.println("нужно ввести одну букву!");
+            System.out.print("Ввод: ");
+        }
+        return enterString.toLowerCase();
     }
 
     public void printMessage(String message){

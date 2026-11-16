@@ -7,9 +7,9 @@ import java.util.stream.Stream;
 
 public class HangmanGame {
     private final static String LETTER_ALREADY_USED = "ты уже называл эту букву(";
-    private final String word;
+    private String word;
     private final GameConfig gameConfig;
-    private final ConsoleUI consoleUI;
+    private ConsoleUI consoleUI;
     private final Set<String> enterLetters = new HashSet<>();
     private final List<String> guessLetters;
     private int countFailAttempts;
@@ -27,7 +27,6 @@ public class HangmanGame {
     public void starSession() {
         openStartLetters(gameConfig.getRevealedLetters());
         while (true) {
-            // эти два ифа просто ужас
             consoleUI.printGameMenu(stageCalculation(), guessLetters, enterLetters);
             if(isWin()){
                 consoleUI.showWinMessage();
@@ -76,9 +75,10 @@ public class HangmanGame {
         enterLetters.add(letter);
     }
     private boolean isWin() {
-        HashSet<String> hidden = new HashSet<>(Arrays.asList(word.split("")));
-        HashSet<String> guesses = new HashSet<>(guessLetters);
-        return hidden.equals(guesses);
+        if(guessLetters.contains("_")){
+            return false;
+        }
+        return true;
     }
     private boolean isLoss(){
         return countFailAttempts == gameConfig.getMaxAttempts();
