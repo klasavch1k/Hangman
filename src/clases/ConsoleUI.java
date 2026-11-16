@@ -145,7 +145,7 @@ public class ConsoleUI {
             if(SINGLE_RUSSIAN_LETTER_PATTERN.matcher(enterString).matches()){
                 break;
             }
-            System.out.println("нужно ввести одну букву!");
+            System.out.println("нужно ввести одну русскую букву!");
             System.out.print("Ввод: ");
         }
         return enterString.toLowerCase();
