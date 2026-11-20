@@ -28,10 +28,10 @@ public class WordDictionary {
                     .filter(word ->ONLY_RUSSIAN_LETTERS_PATTERN.matcher(word).matches())
                     .toList();
         } catch (IOException e) {
-            throw new  UncheckedIOException("проблемы с загрузкой словаря",e);
+            throw new  UncheckedIOException("Failed to load word dictionary",e);
         }
         if (words.isEmpty()) {
-            throw new IllegalStateException("словарь пуст");
+            throw new IllegalStateException("Word dictionary is empty");
         }
     }
 
