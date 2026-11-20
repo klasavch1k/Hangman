@@ -1,14 +1,29 @@
 package clases;
 
+import enums.MenuAction;
 import enums.SettingsAction;
 
 public class GameRunner {
     private  final WordDictionary wordDictionary = new WordDictionary();
     private  final ConsoleUI consoleUI = new ConsoleUI();
     private  final GameConfig gameConfig = new GameConfig();
-
     private static final String INVALID_VALUE = "недопустимое значение!";
 
+    public static void main(String[] args) {
+        GameRunner gameRunner = new GameRunner();
+        ConsoleUI consoleUI = gameRunner.getConsoleUI();
+        loop:
+        while (true) {
+            MenuAction menuAction = consoleUI.showStartMenu();
+            switch (menuAction) {
+                case START_GAME -> gameRunner.startGame();
+                case SETTINGS -> gameRunner.openSettings();
+                case EXIT -> {
+                    break loop;
+                }
+            }
+        }
+    }
     public void startGame() {
         SecretWord secretWord = new SecretWord(wordDictionary.getRandomWord());
         HangmanGame hangmanGame = new HangmanGame(secretWord, gameConfig, consoleUI);

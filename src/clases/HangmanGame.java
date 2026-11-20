@@ -3,8 +3,7 @@ package clases;
 import enums.HangmanArt;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+
 
 public class HangmanGame {
     private final static String LETTER_ALREADY_USED = "ты уже называл эту букву(";
