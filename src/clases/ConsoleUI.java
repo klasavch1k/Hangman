@@ -36,7 +36,7 @@ public class ConsoleUI {
         };
     }
 
-    public void printGameMenu(HangmanArt hangmanArt, List<Character> wordMask, Set<Character> enterLetters) {
+    public void printGameMenu(HangmanArt hangmanArt, List<Character> wordMask, List<Character> enterLetters) {
         System.out.println(hangmanArt.getArt());
         System.out.println(wordMask);
         System.out.println("уже использованные буквы: " + enterLetters.toString());

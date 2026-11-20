@@ -12,7 +12,7 @@ public class HangmanGame {
 
     private ConsoleUI consoleUI;
     private final SecretWord secretWord;
-    private final Set<Character> enteredLetters = new HashSet<>();
+    private final List<Character> enteredLetters = new ArrayList<>();
     private int failedAttempts;
 
     public HangmanGame(SecretWord secretWord, ConsoleUI consoleUI) {
