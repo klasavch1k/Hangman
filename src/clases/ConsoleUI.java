@@ -13,12 +13,6 @@ public class ConsoleUI {
     private final Scanner scanner = new Scanner(System.in);
     private static final Pattern SINGLE_RUSSIAN_LETTER_PATTERN = Pattern.compile("[А-ЯёЁа-я]");
 
-    /*метод show последовательно вызывает методы print и read
-    *дальше есть чёткое разделение методов
-    *print - вывод информации
-    *read - получение данных от пользователя
-    *show - логическое объединение, где есть как вывод информации, так и получение данных
-    */
     public MenuAction showStartMenu() {
         printStartMenu();
         return readMenuAction();
@@ -94,12 +88,12 @@ public class ConsoleUI {
         return readNumber();
     }
 
-    public void printGameMenu(HangmanArt hangmanArt, List<String> guessLetters, Set<String> enterLetters) {
+    public void printGameMenu(HangmanArt hangmanArt, List<Character> wordMask, Set<Character> enterLetters) {
         System.out.println(hangmanArt.getArt());
-        System.out.println(guessLetters);
+        System.out.println(wordMask);
         System.out.println("уже использованные буквы: " + enterLetters.toString());
     }
-    public String readGameMenu() {
+    public char readGameMenu() {
         System.out.print("Ввод: ");
         return readLetter();
     }
@@ -148,7 +142,7 @@ public class ConsoleUI {
     private int readNumber(){
         return readNumber(Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
-    private String readLetter(){
+    private char readLetter(){
         String enterString;
         while (true){
             enterString = scanner.nextLine();
@@ -158,7 +152,7 @@ public class ConsoleUI {
             System.out.println("нужно ввести одну русскую букву!");
             System.out.print("Ввод: ");
         }
-        return enterString.toLowerCase();
+        return enterString.toLowerCase().charAt(0);
     }
 
 

@@ -10,7 +10,8 @@ public class GameRunner {
     private static final String INVALID_VALUE = "недопустимое значение!";
 
     public void startGame() {
-        HangmanGame hangmanGame = new HangmanGame(wordDictionary.getRandomWord(),gameConfig,consoleUI);
+        SecretWord secretWord = new SecretWord(wordDictionary.getRandomWord());
+        HangmanGame hangmanGame = new HangmanGame(secretWord, gameConfig, consoleUI);
         hangmanGame.startSession();
     }
 
