@@ -23,69 +23,17 @@ public class ConsoleUI {
         System.out.println();
         System.out.println("МЕНЮ");
         System.out.println("1 - начать играть");
-        System.out.println("2 - настройки");
-        System.out.println("3 - выйти из игры");
+        System.out.println("2 - выйти из игры");
         System.out.print("Ваш выбор: ");
     }
     public MenuAction readMenuAction() {
-        int choice = readNumber(1, 3);
+        int choice = readNumber(1, 2);
         return switch (choice) {
             case 1 -> MenuAction.START_GAME;
             case 2 -> MenuAction.SETTINGS;
             case 3 -> MenuAction.EXIT;
             default -> throw new IllegalStateException("Unexpected value: " + choice);
         };
-    }
-
-    public SettingsAction showSettingsMenu(int currentRevealedLetters, int currentMaxAttempts) {
-        printSettingsMenu(currentRevealedLetters, currentMaxAttempts);
-        return readSettingsAction();
-    }
-    public void printSettingsMenu(int currentRevealedLetters, int currentMaxAttempts) {
-        clearConsole();
-        System.out.println("НАСТРОЙКИ");
-        System.out.println("        ------      ");
-        System.out.println("текущие значение:");
-        System.out.println("кол-во открытых букв: " + currentRevealedLetters);
-        System.out.println("кол-во попыток:             " + currentMaxAttempts);
-        System.out.println("        ------      ");
-        System.out.println("1 - изменить кол-во открытых букв");
-        System.out.println("2 - изменить кол-во попыток");
-        System.out.println("3 - вернуться в меню");
-
-
-    }
-    public SettingsAction readSettingsAction() {
-        System.out.print("Ваш выбор: ");
-        int choice = readNumber(1,3);
-        return switch (choice) {
-            case 1 -> SettingsAction.SET_REVEALED_LETTERS;
-            case 2 -> SettingsAction.SET_MAX_ATTEMPTS;
-            case 3 -> SettingsAction.BACK_TO_MENU;
-            default -> throw new IllegalStateException("Unexpected value: " + choice);
-        };
-    }
-
-    public void printSetRevealedLettersMenu(int currentValue) {
-        clearConsole();
-        System.out.println("Введи новое колличество открытых букв");
-        System.out.println("текущее значение: " + currentValue);
-        System.out.println("разрешены значения от 0 до 2");
-    }
-    public int readSetRevealedLettersMenu() {
-        System.out.print("Ввод: ");
-        return readNumber();
-    }
-
-    public void printSetMaxAttemptMenu(int currentValue) {
-        clearConsole();
-        System.out.println("Введи новое колличество попыток");
-        System.out.println("текущее значение: " + currentValue);
-        System.out.println("разрешены значения 6, 8, 10");
-    }
-    public int readSetMaxAttemptMenu() {
-        System.out.print("Ввод: ");
-        return readNumber();
     }
 
     public void printGameMenu(HangmanArt hangmanArt, List<Character> wordMask, Set<Character> enterLetters) {

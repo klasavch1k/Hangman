@@ -6,21 +6,22 @@ import java.util.*;
 
 
 public class HangmanGame {
+    private final int COUNT_OF_REVEALED_LETTERS = 2;
+    private final int COUNT_MAX_MISTAKES = 6;
     private final static String LETTER_ALREADY_USED = "ты уже называл эту букву(";
-    private final GameConfig gameConfig;
+
     private ConsoleUI consoleUI;
     private final SecretWord secretWord;
     private final Set<Character> enteredLetters = new HashSet<>();
     private int failedAttempts;
 
-    public HangmanGame(SecretWord secretWord, GameConfig gameConfig, ConsoleUI consoleUI) {
+    public HangmanGame(SecretWord secretWord, ConsoleUI consoleUI) {
         this.secretWord = secretWord;
-        this.gameConfig = new GameConfig(gameConfig);
         this.consoleUI = consoleUI;
     }
 
     public void startSession() {
-        openStartLetters(gameConfig.getRevealedLetters());
+        openStartLetters();
         while (true) {
             consoleUI.printGameMenu(getCurrentStage(), secretWord.getMask(), enteredLetters);
             if(isWin()){
@@ -43,9 +44,6 @@ public class HangmanGame {
 
     private HangmanArt getCurrentStage() {
         HangmanArt[] values = HangmanArt.values();
-        if (gameConfig.getMaxAttempts() == 10) {
-            return values[failedAttempts];
-        }
         return values[failedAttempts + 2];
     }
     private boolean isLetterNotUsed(char currentLetter) {
@@ -71,10 +69,10 @@ public class HangmanGame {
         return secretWord.isMaskFullyRevealed();
     }
     private boolean isLoss(){
-        return failedAttempts == gameConfig.getMaxAttempts();
+        return failedAttempts == COUNT_MAX_MISTAKES;
     }
 
     //TODO: реализовать метод
-    private void openStartLetters(int count) {
+    private void openStartLetters() {
     }
 }
