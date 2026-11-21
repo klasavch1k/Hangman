@@ -2,17 +2,16 @@ package clases;
 import java.util.*;
 
 
-public class HangmanGame {
+public class GameSession {
     private final int COUNT_OF_REVEALED_LETTERS = 2;
-    private final int COUNT_MAX_MISTAKES = 6;
     private final static String LETTER_ALREADY_USED = "ты уже называл эту букву(";
 
-    private ConsoleUI consoleUI;
+    private final ConsoleUI consoleUI;
     private final SecretWord secretWord;
     private final List<Character> enteredLetters = new ArrayList<>();
     private int countMistakes;
 
-    public HangmanGame(SecretWord secretWord, ConsoleUI consoleUI) {
+    public GameSession(SecretWord secretWord, ConsoleUI consoleUI) {
         this.secretWord = secretWord;
         this.consoleUI = consoleUI;
     }
@@ -20,20 +19,21 @@ public class HangmanGame {
     public void startSession() {
         openStartLetters();
         while (true) {
-            consoleUI.printGameMenu(countMistakes, secretWord.getMask(), enteredLetters);
+            consoleUI.printGameStatus(countMistakes, secretWord.getMask(), enteredLetters);
             if(isWin()){
-                consoleUI.showWinMessage();
+                consoleUI.printMessage("Ты победил");
                 break;
             }
             if(isLoss()){
-                consoleUI.showLoseMessage(secretWord.getWord());
+                consoleUI.printMessage("Ты проиграл(");
+                consoleUI.printMessage("Загаданное слово: %s".formatted(secretWord.getWord()));
                 break;
             }
-            char enteredLetter = consoleUI.readGameMenu();
+            char enteredLetter = consoleUI.readLetter();
             while (!isLetterNotUsed(enteredLetter)) {
-                consoleUI.printGameMenu(countMistakes, secretWord.getMask(), enteredLetters);
+                consoleUI.printGameStatus(countMistakes, secretWord.getMask(), enteredLetters);
                 consoleUI.printMessage(LETTER_ALREADY_USED);
-                enteredLetter = consoleUI.readGameMenu();
+                enteredLetter = consoleUI.readLetter();
             }
             processGuess(enteredLetter);
         }
@@ -62,6 +62,7 @@ public class HangmanGame {
         return secretWord.isMaskFullyRevealed();
     }
     private boolean isLoss(){
+        int COUNT_MAX_MISTAKES = 6;
         return countMistakes == COUNT_MAX_MISTAKES;
     }
 

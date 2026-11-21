@@ -13,6 +13,7 @@ public class ConsoleUI {
     private final Scanner scanner = new Scanner(System.in);
 
     public void printMenu(String title, List<MenuOption> menuOptions) {
+        System.out.println();
         System.out.println(title);
         System.out.println("---");
         for (int i = 0; i< menuOptions.size(); i++){
@@ -23,27 +24,10 @@ public class ConsoleUI {
         System.out.print(ENTER_MESSAGE);
     }
 
-    //TODO: переделать методы игры
-    public void printGameMenu(int countMistakes, List<Character> wordMask, List<Character> enterLetters) {
+    public void printGameStatus(int countMistakes, List<Character> wordMask, List<Character> enterLetters) {
         System.out.println(hangmanPicture.get(countMistakes));
         System.out.println(wordMask);
         System.out.println("уже использованные буквы: " + enterLetters.toString());
-    }
-    public char readGameMenu() {
-        System.out.print("Ввод: ");
-        return readLetter();
-    }
-
-    public void showWinMessage() {
-        System.out.println("поздравляю, ты смог победить!");
-        System.out.println("нажми enter для выхода в меню");
-        scanner.nextLine();
-    }
-    public void showLoseMessage(String word) {
-        System.out.println("к сожалению ты проиграл(");
-        System.out.println("я загадал слово: " + word);
-        System.out.println("нажми enter для выхода в меню");
-        scanner.nextLine();
     }
 
     public void printError(String error){
@@ -68,15 +52,15 @@ public class ConsoleUI {
         }
         return choice;
     }
-    private char readLetter(){
+    public char readLetter(){
         String enterString;
         while (true){
+            System.out.print("Ввод: ");
             enterString = scanner.nextLine();
             if(SINGLE_RUSSIAN_LETTER_PATTERN.matcher(enterString).matches()){
                 break;
             }
             System.out.println("нужно ввести одну русскую букву!");
-            System.out.print("Ввод: ");
         }
         return enterString.toLowerCase().charAt(0);
     }
