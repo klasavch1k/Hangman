@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SecretWord {
+    private static final char MASK_SYMBOL = '_';
     private final String word;
     private final List<Character> mask;
 
@@ -11,7 +12,7 @@ public class SecretWord {
         this.word = word;
         mask = new ArrayList<>();
         for(int i = 0; i<word.length(); i++){
-            mask.add('_');
+            mask.add(MASK_SYMBOL);
         }
     }
 
@@ -36,6 +37,6 @@ public class SecretWord {
     }
 
     public boolean isMaskFullyRevealed(){
-        return !mask.contains('_');
+        return !mask.contains(MASK_SYMBOL);
     }
 }

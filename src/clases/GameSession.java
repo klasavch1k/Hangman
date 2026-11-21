@@ -8,8 +8,8 @@ public class GameSession {
 
     private final ConsoleUI consoleUI;
     private final SecretWord secretWord;
-    private final List<Character> enteredLetters = new ArrayList<>();
-    private int countMistakes;
+    private final List<Character> usedLetters = new ArrayList<>();
+    private int mistakeCount;
 
     public GameSession(SecretWord secretWord, ConsoleUI consoleUI) {
         this.secretWord = secretWord;
@@ -19,7 +19,7 @@ public class GameSession {
     public void startSession() {
         openStartLetters();
         while (true) {
-            consoleUI.printGameStatus(countMistakes, secretWord.getMask(), enteredLetters);
+            consoleUI.printGameStatus(mistakeCount, secretWord.getMask(), usedLetters);
             if(isWin()){
                 consoleUI.printMessage("Ты победил");
                 break;
@@ -29,19 +29,19 @@ public class GameSession {
                 consoleUI.printMessage("Загаданное слово: %s".formatted(secretWord.getWord()));
                 break;
             }
-            char enteredLetter = consoleUI.readLetter();
-            while (!isLetterNotUsed(enteredLetter)) {
-                consoleUI.printGameStatus(countMistakes, secretWord.getMask(), enteredLetters);
+            char letter = consoleUI.readLetter();
+            while (!isLetterNotUsed(letter)) {
+                consoleUI.printGameStatus(mistakeCount, secretWord.getMask(), usedLetters);
                 consoleUI.printMessage(LETTER_ALREADY_USED);
-                enteredLetter = consoleUI.readLetter();
+                letter = consoleUI.readLetter();
             }
-            processGuess(enteredLetter);
+            processGuess(letter);
         }
     }
 
-    private boolean isLetterNotUsed(char currentLetter) {
-        for (Character enteredLetter : enteredLetters) {
-            if (enteredLetter.equals(currentLetter)) {
+    private boolean isLetterNotUsed(char letter) {
+        for (Character usedLetter : usedLetters) {
+            if (usedLetter.equals(letter)) {
                 return false;
             }
         }
@@ -54,16 +54,16 @@ public class GameSession {
                 isMistake = false;
             }
         if(isMistake){
-            countMistakes++;
+            mistakeCount++;
         }
-        enteredLetters.add(letter);
+        usedLetters.add(letter);
     }
     private boolean isWin() {
         return secretWord.isMaskFullyRevealed();
     }
     private boolean isLoss(){
         int COUNT_MAX_MISTAKES = 6;
-        return countMistakes == COUNT_MAX_MISTAKES;
+        return mistakeCount == COUNT_MAX_MISTAKES;
     }
 
     //TODO: реализовать метод

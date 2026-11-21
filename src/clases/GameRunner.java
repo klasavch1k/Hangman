@@ -24,11 +24,6 @@ public class GameRunner {
         }
     }
 
-    public static void sayGoodbye() {
-        consoleUI.printMessage("До встречи!");
-        running = false;
-    }
-
     public static void startGame() {
         WordFilter wordFilter = new WordFilter(
                 MIN_COUNT_LETTERS,
@@ -39,5 +34,9 @@ public class GameRunner {
         SecretWord secretWord = new SecretWord(wordDictionary.getRandomWord());
         GameSession gameSession = new GameSession(secretWord, consoleUI);
         gameSession.startSession();
+    }
+    public static void sayGoodbye() {
+        consoleUI.printMessage("До встречи!");
+        running = false;
     }
 }

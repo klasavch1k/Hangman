@@ -1,6 +1,5 @@
 package clases;
 
-
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -21,17 +20,16 @@ public class ConsoleUI {
             System.out.printf("%d %s \n",i+1, label);
         }
         System.out.println();
-        System.out.print(ENTER_MESSAGE);
     }
 
-    public void printGameStatus(int countMistakes, List<Character> wordMask, List<Character> enterLetters) {
-        System.out.println(hangmanPicture.get(countMistakes));
+    public void printGameStatus(int mistakeCount, List<Character> wordMask, List<Character> usedLetters) {
+        System.out.println(hangmanPicture.get(mistakeCount));
         System.out.println(wordMask);
-        System.out.println("уже использованные буквы: " + enterLetters.toString());
+        System.out.println("уже использованные буквы: " + usedLetters.toString());
     }
 
-    public void printError(String error){
-        System.out.println(error);
+    public void printError(String errorMessage){
+        System.out.println(errorMessage);
     }
     public void printMessage(String message){
         System.out.println(message);
@@ -39,13 +37,14 @@ public class ConsoleUI {
 
     public int readNumber(){
         int choice;
+        String enteredLine;
         while (true){
+            System.out.print(ENTER_MESSAGE);
             try {
-                String enteredLine = scanner.nextLine();
+                enteredLine = scanner.nextLine();
                 choice = Integer.parseInt(enteredLine);
             }catch (NumberFormatException e){
                 System.out.println("Введите число!");
-                System.out.print("Вaш выбор: ");
                 continue;
             }
             break;
@@ -53,16 +52,15 @@ public class ConsoleUI {
         return choice;
     }
     public char readLetter(){
-        String enterString;
+        String enteredLine;
         while (true){
-            System.out.print("Ввод: ");
-            enterString = scanner.nextLine();
-            if(SINGLE_RUSSIAN_LETTER_PATTERN.matcher(enterString).matches()){
-                break;
+            System.out.print(ENTER_MESSAGE);
+            enteredLine = scanner.nextLine();
+            if(SINGLE_RUSSIAN_LETTER_PATTERN.matcher(enteredLine).matches()){
+                return enteredLine.toLowerCase().charAt(0);
             }
             System.out.println("нужно ввести одну русскую букву!");
         }
-        return enterString.toLowerCase().charAt(0);
     }
 
 

@@ -68,7 +68,7 @@ public class HangmanPicture {
                     """
     );
 
-    public String get(int countMistakes) {
-        return PICTURES.get(countMistakes);
+    public String get(int mistakeCount) {
+        return PICTURES.get(mistakeCount);
     }
 }

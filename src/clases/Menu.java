@@ -18,8 +18,8 @@ public class Menu {
         this.consoleUI = consoleUI;
     }
 
-    public void addOption(String label, Runnable runnable) {
-        MenuOption option = new MenuOption(label, runnable);
+    public void addOption(String label, Runnable action) {
+        MenuOption option = new MenuOption(label, action);
         menuOptions.add(option);
     }
 
