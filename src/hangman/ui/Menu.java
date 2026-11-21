@@ -1,4 +1,4 @@
-package clases;
+package hangman.ui;
 
 import java.util.ArrayList;
 import java.util.List;

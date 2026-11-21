@@ -1,4 +1,4 @@
-package clases;
+package hangman.ui;
 
 import java.util.List;
 import java.util.Scanner;
@@ -35,6 +35,11 @@ public class ConsoleUI {
         System.out.println(message);
     }
 
+    /*
+    Решил отказаться от интерфейса Dialog<T> и отдельных реализаций
+    в пользу простых методов readChar() и readNumber().
+    Для текущего масштаба проекта дополнительная абстракция кажется избыточной.
+    */
     public int readNumber(){
         int choice;
         String enteredLine;

@@ -1,4 +1,6 @@
-package clases;
+package hangman.game;
+import hangman.ui.ConsoleUI;
+
 import java.util.*;
 
 

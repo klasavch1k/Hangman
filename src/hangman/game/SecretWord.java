@@ -1,4 +1,4 @@
-package clases;
+package hangman.game;
 
 import java.util.ArrayList;
 import java.util.List;

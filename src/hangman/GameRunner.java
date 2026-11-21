@@ -1,4 +1,11 @@
-package clases;
+package hangman;
+
+import hangman.dictionary.WordDictionary;
+import hangman.dictionary.WordFilter;
+import hangman.game.GameSession;
+import hangman.game.SecretWord;
+import hangman.ui.ConsoleUI;
+import hangman.ui.Menu;
 
 import java.nio.file.Path;
 import java.util.regex.Pattern;
