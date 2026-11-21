@@ -5,7 +5,7 @@ import java.util.*;
 
 
 public class GameSession {
-    private final int COUNT_OF_REVEALED_LETTERS = 2;
+    private final static int COUNT_OF_REVEALED_LETTERS = 2;
     private final static String LETTER_ALREADY_USED = "ты уже называл эту букву(";
 
     private final ConsoleUI consoleUI;
@@ -50,12 +50,9 @@ public class GameSession {
         return true;
     }
     private void processGuess(char letter) {
-        boolean isMistake = true;
-            if (secretWord.isContainsLetter(letter)) {
-                secretWord.openLetterInMask(letter);
-                isMistake = false;
-            }
-        if(isMistake){
+        if (secretWord.isContainsLetter(letter)) {
+            secretWord.openLetterInMask(letter);
+        }else{
             mistakeCount++;
         }
         usedLetters.add(letter);
@@ -68,7 +65,16 @@ public class GameSession {
         return mistakeCount == COUNT_MAX_MISTAKES;
     }
 
-    //TODO: реализовать метод
     private void openStartLetters() {
+        Random random = new Random();
+        List<Character> nonRepeatingLetters = secretWord.getNonRepeatingLetters();
+        if(nonRepeatingLetters.size() < COUNT_OF_REVEALED_LETTERS){
+            throw new IllegalStateException("The word contains fewer than two non-repeating letters");
+        }
+        for (int i = 0; i < COUNT_OF_REVEALED_LETTERS; i++) {
+            int randomIndex = random.nextInt(nonRepeatingLetters.size());
+            char letter = nonRepeatingLetters.remove(randomIndex);
+            processGuess(letter);
+        }
     }
 }

@@ -30,7 +30,7 @@ public class Menu {
     public void select() {
         while (true) {
             int index = consoleUI.readNumber() - 1;
-            if (index >= 0 && index <= menuOptions.size()) {
+            if (index >= 0 && index < menuOptions.size()) {
                 MenuOption option = menuOptions.get(index);
                 option.action().run();
                 break;
