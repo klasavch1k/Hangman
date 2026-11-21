@@ -1,6 +1,5 @@
 package clases;
 
-import enums.HangmanArt;
 import enums.MenuAction;
 
 import java.util.List;
@@ -8,6 +7,7 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class ConsoleUI {
+    private final HangmanPicture hangmanPicture = new HangmanPicture();
     private final Scanner scanner = new Scanner(System.in);
     private static final Pattern SINGLE_RUSSIAN_LETTER_PATTERN = Pattern.compile("[А-ЯёЁа-я]");
 
@@ -34,8 +34,8 @@ public class ConsoleUI {
         };
     }
 
-    public void printGameMenu(HangmanArt hangmanArt, List<Character> wordMask, List<Character> enterLetters) {
-        System.out.println(hangmanArt.getArt());
+    public void printGameMenu(int countMistakes, List<Character> wordMask, List<Character> enterLetters) {
+        System.out.println(hangmanPicture.get(countMistakes));
         System.out.println(wordMask);
         System.out.println("уже использованные буквы: " + enterLetters.toString());
     }

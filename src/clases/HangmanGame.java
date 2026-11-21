@@ -1,7 +1,4 @@
 package clases;
-
-import enums.HangmanArt;
-
 import java.util.*;
 
 
@@ -13,7 +10,7 @@ public class HangmanGame {
     private ConsoleUI consoleUI;
     private final SecretWord secretWord;
     private final List<Character> enteredLetters = new ArrayList<>();
-    private int failedAttempts;
+    private int countMistakes;
 
     public HangmanGame(SecretWord secretWord, ConsoleUI consoleUI) {
         this.secretWord = secretWord;
@@ -23,7 +20,7 @@ public class HangmanGame {
     public void startSession() {
         openStartLetters();
         while (true) {
-            consoleUI.printGameMenu(getCurrentStage(), secretWord.getMask(), enteredLetters);
+            consoleUI.printGameMenu(countMistakes, secretWord.getMask(), enteredLetters);
             if(isWin()){
                 consoleUI.showWinMessage();
                 break;
@@ -34,7 +31,7 @@ public class HangmanGame {
             }
             char enteredLetter = consoleUI.readGameMenu();
             while (!isLetterNotUsed(enteredLetter)) {
-                consoleUI.printGameMenu(getCurrentStage(), secretWord.getMask(), enteredLetters);
+                consoleUI.printGameMenu(countMistakes, secretWord.getMask(), enteredLetters);
                 consoleUI.printMessage(LETTER_ALREADY_USED);
                 enteredLetter = consoleUI.readGameMenu();
             }
@@ -42,10 +39,6 @@ public class HangmanGame {
         }
     }
 
-    private HangmanArt getCurrentStage() {
-        HangmanArt[] values = HangmanArt.values();
-        return values[failedAttempts + 2];
-    }
     private boolean isLetterNotUsed(char currentLetter) {
         for (Character enteredLetter : enteredLetters) {
             if (enteredLetter.equals(currentLetter)) {
@@ -61,7 +54,7 @@ public class HangmanGame {
                 isMistake = false;
             }
         if(isMistake){
-            failedAttempts++;
+            countMistakes++;
         }
         enteredLetters.add(letter);
     }
@@ -69,7 +62,7 @@ public class HangmanGame {
         return secretWord.isMaskFullyRevealed();
     }
     private boolean isLoss(){
-        return failedAttempts == COUNT_MAX_MISTAKES;
+        return countMistakes == COUNT_MAX_MISTAKES;
     }
 
     //TODO: реализовать метод
