@@ -1,7 +1,5 @@
 package clases;
 
-import enums.MenuAction;
-
 import java.nio.file.Path;
 import java.util.regex.Pattern;
 
@@ -14,16 +12,16 @@ public class GameRunner {
     private static final Path path = Path.of("src","resources","words.txt");
 
     public static void main(String[] args) {
-        loop:
-        while (true) {
-            MenuAction menuAction = consoleUI.showStartMenu();
-            switch (menuAction) {
-                case START_GAME -> GameRunner.startGame();
-                case EXIT -> {
-                    break loop;
-                }
-            }
-        }
+
+        Menu menu = new Menu("ВИСЕЛИЦА", consoleUI);
+        menu.addOption("начать игру", GameRunner::startGame);
+        menu.addOption("выйти", GameRunner::sayGoodbye);
+        menu.show();
+        menu.select();
+
+    }
+    public static void sayGoodbye(){
+        consoleUI.printMessage("До встречи!");
     }
     public static void startGame() {
         WordFilter wordFilter = new WordFilter(

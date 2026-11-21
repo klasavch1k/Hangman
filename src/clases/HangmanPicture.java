@@ -3,7 +3,7 @@ package clases;
 import java.util.List;
 
 public class HangmanPicture {
-    private static final List<String> pictures = List.of(
+    private static final List<String> PICTURES = List.of(
             """
                       +------+
                        |     |
@@ -69,6 +69,6 @@ public class HangmanPicture {
     );
 
     public String get(int countMistakes) {
-        return pictures.get(countMistakes);
+        return PICTURES.get(countMistakes);
     }
 }

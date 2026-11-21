@@ -1,39 +1,29 @@
 package clases;
 
-import enums.MenuAction;
 
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class ConsoleUI {
-    private final HangmanPicture hangmanPicture = new HangmanPicture();
-    private final Scanner scanner = new Scanner(System.in);
+    private static final String ENTER_MESSAGE = "Ввод: ";
     private static final Pattern SINGLE_RUSSIAN_LETTER_PATTERN = Pattern.compile("[А-ЯёЁа-я]");
 
-    public MenuAction showStartMenu() {
-        printStartMenu();
-        return readMenuAction();
-    }
-    public void printStartMenu() {
-        clearConsole();
-        System.out.println("ВИСЕЛИЦА");
+    private final HangmanPicture hangmanPicture = new HangmanPicture();
+    private final Scanner scanner = new Scanner(System.in);
+
+    public void printMenu(String title, List<MenuOption> menuOptions) {
+        System.out.println(title);
+        System.out.println("---");
+        for (int i = 0; i< menuOptions.size(); i++){
+            String label = menuOptions.get(i).label();
+            System.out.printf("%d %s \n",i+1, label);
+        }
         System.out.println();
-        System.out.println("МЕНЮ");
-        System.out.println("1 - начать играть");
-        System.out.println("2 - выйти из игры");
-        System.out.print("Ваш выбор: ");
-    }
-    public MenuAction readMenuAction() {
-        int choice = readNumber(1, 2);
-        return switch (choice) {
-            case 1 -> MenuAction.START_GAME;
-            case 2 -> MenuAction.SETTINGS;
-            case 3 -> MenuAction.EXIT;
-            default -> throw new IllegalStateException("Unexpected value: " + choice);
-        };
+        System.out.print(ENTER_MESSAGE);
     }
 
+    //TODO: переделать методы игры
     public void printGameMenu(int countMistakes, List<Character> wordMask, List<Character> enterLetters) {
         System.out.println(hangmanPicture.get(countMistakes));
         System.out.println(wordMask);
@@ -56,17 +46,14 @@ public class ConsoleUI {
         scanner.nextLine();
     }
 
+    public void printError(String error){
+        System.out.println(error);
+    }
     public void printMessage(String message){
         System.out.println(message);
     }
 
-    private void clearConsole() {
-        //имитация очистки консоли
-        for (int i = 0; i < 20; i++) {
-            System.out.println();
-        }
-    }
-    private int readNumber(int min, int max){
+    public int readNumber(){
         int choice;
         while (true){
             try {
@@ -77,16 +64,9 @@ public class ConsoleUI {
                 System.out.print("Вaш выбор: ");
                 continue;
             }
-            if(choice >= min && choice <= max){
-                break;
-            }
-            System.out.println("число должно быть от "+ min+ " до "+ max);
-            System.out.print("Вaш выбор: ");
+            break;
         }
         return choice;
-    }
-    private int readNumber(){
-        return readNumber(Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
     private char readLetter(){
         String enterString;
@@ -100,6 +80,7 @@ public class ConsoleUI {
         }
         return enterString.toLowerCase().charAt(0);
     }
+
 
 
 }
