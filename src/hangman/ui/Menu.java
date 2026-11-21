@@ -3,9 +3,6 @@ package hangman.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-класс вдохновлён примером из тг
- */
 public class Menu {
     private static final String ERROR_MESSAGE = "Некорректный пункт меню. Попробуйте снова";
 

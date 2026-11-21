@@ -17,9 +17,15 @@ public class GameRunner {
     private static final ConsoleUI consoleUI = new ConsoleUI();
     private static final Path path = Path.of("src", "resources", "words.txt");
 
+    private static WordDictionary wordDictionary;
     private static boolean running = true;
 
     public static void main(String[] args) {
+        WordFilter wordFilter = new WordFilter(
+                MIN_COUNT_LETTERS,
+                MAX_COUNT_LETTERS,
+                ONLY_RUSSIAN_LETTERS_PATTERN);
+        wordDictionary = new WordDictionary(path, wordFilter);
 
         Menu menu = new Menu("ВИСЕЛИЦА", consoleUI);
         menu.addOption("начать игру", GameRunner::startGame);
@@ -32,12 +38,6 @@ public class GameRunner {
     }
 
     public static void startGame() {
-        WordFilter wordFilter = new WordFilter(
-                MIN_COUNT_LETTERS,
-                MAX_COUNT_LETTERS,
-                ONLY_RUSSIAN_LETTERS_PATTERN);
-        WordDictionary wordDictionary = new WordDictionary(path, wordFilter);
-
         SecretWord secretWord = new SecretWord(wordDictionary.getRandomWord());
         GameSession gameSession = new GameSession(secretWord, consoleUI);
         gameSession.startSession();

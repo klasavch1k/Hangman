@@ -1,6 +1,7 @@
 package hangman.game;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SecretWord {
@@ -16,11 +17,16 @@ public class SecretWord {
         }
     }
 
-    public boolean isContainsLetter(char letter) {
+    public boolean containsLetter(char letter) {
         return word.indexOf(letter) != -1;
     }
 
     public void openLetterInMask(char letter) {
+        if (!containsLetter(letter)) {
+            throw new IllegalArgumentException(
+                    "Letter is not present in the secret word: " + letter
+            );
+        }
         for (int i = 0; i < word.length(); i++) {
             if (word.charAt(i) == letter) {
                 mask.set(i, letter);
@@ -33,29 +39,11 @@ public class SecretWord {
     }
 
     public List<Character> getMask() {
-        return mask;
+        return Collections.unmodifiableList(mask);
     }
 
     public boolean isMaskFullyRevealed() {
         return !mask.contains(MASK_SYMBOL);
     }
 
-    public List<Character> getNonRepeatingLetters() {
-        List<Character> nonRepeatingLetters = new ArrayList<>();
-        for (int i = 0; i < word.length(); i++) {
-            int occurrenceCount = 0;
-            char letter = word.charAt(i);
-
-            for (int j = 0; j < word.length(); j++) {
-                if(letter == word.charAt(j)){
-                    occurrenceCount ++;
-                }
-            }
-
-            if(occurrenceCount  == 1){
-                nonRepeatingLetters.add(letter);
-            }
-        }
-        return nonRepeatingLetters;
-    }
 }
