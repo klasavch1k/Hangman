@@ -2,11 +2,9 @@ package clases;
 
 import enums.HangmanArt;
 import enums.MenuAction;
-import enums.SettingsAction;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 public class ConsoleUI {
